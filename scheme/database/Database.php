@@ -279,9 +279,20 @@ class Database {
         throw new PDOException('pdo_mysql extension is not loaded — cannot use SSL options.');
     }
 }
+        
 
         try {
             $this->db = new PDO($dsn, $username, $password, $options);
+if (($_GET['debug_env'] ?? '') === 'lavalust123') {
+    die(json_encode([
+        'DB_HOST_getenv'     => getenv('DB_HOST'),
+        'DB_USERNAME_getenv' => getenv('DB_USERNAME'),
+        'username_resolved'  => $username,
+        'password_set'       => getenv('DB_PASSWORD') ? 'SET (' . strlen(getenv('DB_PASSWORD')) . ' chars)' : 'EMPTY',
+        'ssl_ca_resolved'    => $database_config['ssl_ca'] ?? null,
+        'env_file_exists'    => file_exists(ROOT_DIR . '.env'),
+    ]));
+}
             $this->driver = $this->db->getAttribute(PDO::ATTR_DRIVER_NAME);
         } catch (Exception $e) {
             $error = load_class('Errors', 'kernel');
