@@ -68,7 +68,7 @@ $database['main'] = array(
     'dbprefix'	=> '',
     // Optional for SQLite
     'path'      => '',
-    'ssl_ca'    => getenv('DB_SSL_CA') ?: ''
+    'ssl_ca' => getenv('DB_SSL_CA') ?: __DIR__ . '/certs/aiven-ca.pem'
 );
 
 ?>
