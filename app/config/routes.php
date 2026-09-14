@@ -44,8 +44,27 @@ defined('PREVENT_DIRECT_ACCESS') OR exit('No direct script access allowed');
 */
 /** @var object $router **/
 
-//$router->get('/', 'Welcome::index');
+$router->get('/', 'Welcome::index');
+
 $router->get('/student', 'StudentController::index');
 $router->get('/student/profile', 'StudentController::profile')->middleware('student');
 
 $router->get('/user', 'UsersController::Users');
+
+
+$router->match('/register', 'AuthController::register', ['GET', 'POST']);
+$router->match('/login', 'AuthController::login', ['GET', 'POST']);
+
+$router->get('/logout', 'AuthController::logout');
+
+$router->get('/products', 'ProductController::index')->middleware('auth');
+
+$router->get('/products/create', 'ProductController::create')->middleware('auth');
+$router->post('/products/create', 'ProductController::create')->middleware('auth');
+
+$router->get('/products/edit/{id}', 'ProductController::edit')->middleware('auth');
+$router->post('/products/edit/{id}', 'ProductController::edit')->middleware('auth');
+
+$router->get('/products/delete/{id}', 'ProductController::delete')->middleware('auth');
+
+$router->get('/', 'ProductController::index')->middleware('auth');
